@@ -1,9 +1,9 @@
-(ns core
+(ns calculate.core
   (:require [clojure.data.json :as json]
             [clojure.java.io   :as io]
             [clojure.string :as str])
   (:gen-class
-   :name       core.ApiHandler
+   :name       calculate.core.ApiHandler
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler]))
 
 (defn parse-int [s]

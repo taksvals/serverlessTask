@@ -1,4 +1,3 @@
-
 service: aws-clojure-gradle
 # NOTE: update this with your service name
 # app and org for use with dashboard.serverless.com
@@ -11,15 +10,16 @@ frameworkVersion: '2'
 
 provider:
   name: aws
-  runtime: java8
-  timeout: 300
+  runtime: java11
+  region: us-east-1
+  timeout: 15
   memorySize: 1536
   logRetentionInDays: 30
   lambdaHashingVersion: 20201221
 
 # you can overwrite defaults here
 #  stage: dev
-#  region: us-east-1
+#  region: us-west-1
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -43,17 +43,15 @@ provider:
 
 # you can add packaging information here
 package:
-  artifact: ${file(build/build.json):distribution}
+  artifact: target/calculatorStandalone.jar
 
 functions:
   hello:
-    handler: hello::handler
-    tags:
-      VERSION: ${file(build/build.json):version}
+    handler: calculate.core.ApiHandler
     events:
-      - http:
-          path: /calculator
-          method: post
+      - httpApi:
+          path: /dev/calculator
+          method: POST
 #      - websocket: $connect
 #      - s3: ${env:BUCKET}
 #      - schedule: rate(10 minutes)
